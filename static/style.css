@@ -1,0 +1,329 @@
+/* ============================================================
+   ROOT TOKENS
+   All colors, fonts, and spacing defined once here
+   ============================================================ */
+:root {
+    --green:        #004B23;   /* FIFA pitch green — primary brand color */
+    --green-mid:    #1A6B3C;   /* Lighter green for hover states */
+    --gold:         #C9A84C;   /* Trophy gold — used for accents */
+    --off-white:    #F5F5F0;   /* Page background */
+    --surface:      #FFFFFF;   /* Card/table background */
+    --border:       #E0E0D8;   /* Subtle borders */
+    --text-primary: #111111;   /* Main text */
+    --text-muted:   #666660;   /* Secondary labels */
+
+    --font-display: 'Barlow Condensed', sans-serif;
+    --font-body:    'Inter', sans-serif;
+}
+
+
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    background:  var(--off-white);
+    font-family: var(--font-body);
+    color:       var(--text-primary);
+    font-size:   15px;
+    line-height: 1.5;
+}
+
+a { color: var(--green-mid); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+.site-header {
+    background:    var(--green);
+    padding:       28px 40px;
+    border-bottom: 3px solid var(--gold);
+}
+
+.header-inner {
+    max-width:       1100px;
+    margin:          0 auto;
+    display:         flex;
+    align-items:     center;
+    justify-content: space-between;
+}
+
+.header-eyebrow {
+    display:        block;
+    font-family:    var(--font-display);
+    font-size:      13px;
+    font-weight:    600;
+    color:          var(--gold);
+    letter-spacing: 0.12em;
+}
+
+.header-name {
+    font-family:    var(--font-display);
+    font-size:      42px;
+    font-weight:    800;
+    color:          #FFFFFF;
+    line-height:    1;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+}
+
+.header-dates {
+    display:        block;
+    font-family:    var(--font-body);
+    font-size:      13px;
+    font-weight:    400;
+    color:          rgba(255, 255, 255, 0.65);
+    margin-top:     6px;
+    letter-spacing: 0.04em;
+}
+
+.header-badge {
+    font-family:    var(--font-display);
+    font-size:      13px;
+    font-weight:    600;
+    color:          var(--gold);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border:         1px solid var(--gold);
+    padding:        6px 14px;
+    border-radius:  3px;
+}
+
+
+/* ============================================================
+   PAGE CONTENT
+   ============================================================ */
+.page-content {
+    max-width: 1100px;
+    margin:    0 auto;
+    padding:   40px 24px 60px;
+}
+
+
+/* ============================================================
+   SECTIONS
+   ============================================================ */
+.dashboard-section {
+    margin-bottom: 32px;
+    padding:       32px;
+    border-radius: 6px;
+}
+
+.section-standings { background: #EEF4EE; }   /* Soft green tint  */
+.section-scorers   { background: #FFF8EC; }   /* Warm gold tint   */
+.section-matches   { background: #F0F4FA; }   /* Cool blue tint   */
+
+.section-title {
+    font-family:    var(--font-display);
+    font-size:      28px;
+    font-weight:    800;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color:          var(--green);
+    border-bottom:  2px solid var(--gold);
+    padding-bottom: 8px;
+    margin-bottom:  20px;
+}
+
+
+/* ============================================================
+   GROUP STANDINGS TABLE
+   ============================================================ */
+
+/* Grid wrapper — displays group tables two per row side by side */
+.standings-grid {
+    display:               grid;
+    grid-template-columns: 1fr 1fr;
+    gap:                   24px;
+}
+
+.standings-group {
+    min-width: 0;          /* Prevents grid blowout on long team names */
+}
+
+.group-title {
+    font-family:    var(--font-display);
+    font-size:      16px;
+    font-weight:    600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color:          var(--green);
+    margin:         24px 0 8px;
+}
+
+.standings-table {
+    width:           100%;
+    border-collapse: collapse;
+    background:      var(--surface);
+    margin-bottom:   8px;
+}
+
+.standings-table th {
+    font-family:    var(--font-display);
+    font-size:      12px;
+    font-weight:    600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color:          var(--text-muted);
+    padding:        8px 12px;
+    text-align:     left;
+    border-bottom:  2px solid var(--border);
+}
+
+.standings-table td {
+    padding:       10px 12px;
+    border-bottom: 1px solid var(--border);
+    font-size:     14px;
+}
+
+.standings-table tr:last-child td { border-bottom: none; }
+.standings-table tr:hover td { background: #F0F4F0; }
+
+.pos       { font-weight: 600; color: var(--text-muted); width: 32px; }
+.team-name { font-weight: 500; }
+.gd-pos    { color: #155724; font-weight: 600; }
+.gd-neg    { color: #721c24; font-weight: 600; }
+
+/* Points column — bolded, larger, and darker background to stand out */
+.pts {
+    font-weight:      700;
+    font-size:        17px;
+    color:            var(--green);
+    background-color: #D6E8D6;   /* Darker green tint to distinguish from rest of row */
+}
+
+
+/* ============================================================
+   TOP SCORERS TABLE
+   ============================================================ */
+.scorers-table {
+    width:           100%;
+    border-collapse: collapse;
+    background:      var(--surface);
+}
+
+.scorers-table th {
+    font-family:    var(--font-display);
+    font-size:      12px;
+    font-weight:    600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color:          var(--text-muted);
+    padding:        8px 12px;
+    text-align:     left;
+    border-bottom:  2px solid var(--border);
+}
+
+.scorers-table td {
+    padding:       12px 12px;
+    border-bottom: 1px solid var(--border);
+    font-size:     14px;
+}
+
+.scorers-table tr:last-child td { border-bottom: none; }
+.scorers-table tr:hover td { background: #FAEFD8; }
+
+.player-name { font-weight: 500; }
+
+.goals {
+    font-family: var(--font-display);
+    font-size:   20px;
+    font-weight: 800;
+    color:       var(--green);
+}
+
+
+/* ============================================================
+   MATCH SCHEDULE
+   ============================================================ */
+.matchday-header {
+    font-family:    var(--font-display);
+    font-size:      13px;
+    font-weight:    600;
+    letter-spacing: 0.1em;
+    color:          var(--text-muted);
+    background:     var(--border);
+    padding:        6px 14px;
+    margin-top:     24px;
+    margin-bottom:  4px;
+    border-left:    3px solid var(--green);
+}
+
+.group-label {
+    font-family:    var(--font-display);
+    font-size:      12px;
+    font-weight:    600;
+    letter-spacing: 0.12em;
+    color:          var(--gold);
+    padding:        10px 0 4px 14px;
+    text-transform: uppercase;
+}
+
+.match-row {
+    display:      flex;
+    align-items:  center;
+    gap:          16px;
+    padding:      10px 14px;
+    border-bottom: 1px solid var(--border);
+    background:   var(--surface);
+    transition:   background 0.15s;
+}
+
+.match-row:hover { background: #E8EEF8; }
+
+.match-date {
+    font-size:   13px;
+    color:       var(--text-muted);
+    min-width:   90px;
+    flex-shrink: 0;
+}
+
+.match-teams {
+    flex:        1;
+    font-weight: 500;
+    font-size:   14px;
+}
+
+.vs {
+    font-size:   11px;
+    font-weight: 400;
+    color:       var(--text-muted);
+    margin:      0 6px;
+}
+
+/* Status badges */
+.match-status {
+    font-family:    var(--font-display);
+    font-size:      12px;
+    font-weight:    600;
+    letter-spacing: 0.06em;
+    padding:        3px 10px;
+    border-radius:  3px;
+    flex-shrink:    0;
+}
+
+.status-timed    { background: #EBEBEB; color: var(--text-muted); }
+.status-inplay   { background: #D4EDDA; color: #155724; }
+.status-finished { background: var(--green); color: #FFFFFF; }
+
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.site-footer {
+    text-align:  center;
+    padding:     24px;
+    font-size:   13px;
+    color:       var(--text-muted);
+    border-top:  1px solid var(--border);
+}
+
+.footer-author {
+    margin-top:     6px;
+    font-size:      12px;
+    color:          var(--text-muted);
+    letter-spacing: 0.04em;
+}

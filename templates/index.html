@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026 FIFA World Cup Dashboard</title>
+
+    <!-- Google Fonts: Barlow Condensed for headers, Inter for body data -->
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Charts.js loaded from CDN - no local install needed -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Link to your static CSS file -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <!-- ============================================================
+         HEADER
+         ============================================================ -->
+    <header class="site-header">
+        <div class="header-inner">
+            <div class="header-title">
+                <span class="header-eyebrow">2026</span>
+                <h1 class="header-name">FIFA World Cup</h1>
+                <span class="header-dates">June 11 &mdash; July 19, 2026</span>
+            </div>
+            <div class="header-meta">
+                <span class="header-badge">USA · Canada · Mexico</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="page-content">
+
+        <!-- ============================================================
+             SECTION 1: GROUP STANDINGS
+             Jinja2 loops through standings grouped by group_name
+             Each `entry` is one row from your group_standings SQLite table
+             ============================================================ -->
+        <section class="dashboard-section section-standings">
+            <h2 class="section-title">Group Standings</h2>
+
+            <!-- Group standings by group_name using a namespace tracker -->
+            {% set ns2 = namespace(current_group=None) %}
+
+            <!-- Grid wrapper — two group tables per row -->
+            <div class="standings-grid">
+
+            {% for entry in standings %}
+
+                <!-- Print a new group table header when group changes -->
+                {% if entry.group_name != ns2.current_group %}
+                    {% set ns2.current_group = entry.group_name %}
+
+                    <!-- Close previous group div and table if one was open -->
+                    {% if not loop.first %}</tbody></table></div>{% endif %}
+
+                    <div class="standings-group">
+                    <h3 class="group-title">{{ entry.group_name }}</h3>
+                    <table class="standings-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Team</th>
+                                <th>W</th>
+                                <th>D</th>
+                                <th>L</th>
+                                <th>GD</th>
+                                <th>Pts</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                {% endif %}
+
+                <!-- One row per team -->
+                <tr>
+                    <td class="pos">{{ entry.position }}</td>
+                    <td class="team-name">{{ entry.team_name }}</td>
+                    <td>{{ entry.won }}</td>
+                    <td>{{ entry.draw }}</td>
+                    <td>{{ entry.lost }}</td>
+                    <td class="{% if entry.goal_difference > 0 %}gd-pos{% elif entry.goal_difference < 0 %}gd-neg{% endif %}">
+                        {% if entry.goal_difference > 0 %}+{% endif %}{{ entry.goal_difference }}
+                    </td>
+                    <td class="pts">{{ entry.points }}</td>
+                </tr>
+
+            {% endfor %}
+
+            <!-- Close the last group div and table -->
+            {% if standings %}</tbody></table></div>{% endif %}
+
+            </div> <!-- end standings-grid -->
+        </section>
+
+
+        <!-- ============================================================
+             SECTION 2: TOP SCORERS
+             Jinja2 loops through the scorers list passed from flask_app.py
+             Each `scorer` is one row from your top_scorers SQLite table
+             ============================================================ -->
+        <section class="dashboard-section section-scorers">
+            <h2 class="section-title">Top Scorers</h2>
+
+            <table class="scorers-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Player</th>
+                        <th>Team</th>
+                        <th>Goals</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for scorer in scorers %}
+                    <tr>
+                        <td class="pos">{{ scorer.rank }}</td>
+                        <td class="player-name">{{ scorer.player_name }}</td>
+                        <td class="team-name">{{ scorer.team_name }}</td>
+                        <td class="goals">{{ scorer.goals }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+
+
+        <!-- ============================================================
+             SECTION 3: MATCH SCHEDULE
+             Jinja2 loops through the matches list passed from flask_app.py
+             Each `match` is one row from your match_days SQLite table
+             ============================================================ -->
+        <section class="dashboard-section section-matches">
+            <h2 class="section-title">Match Schedule</h2>
+
+            <!-- We track the current matchday to print a header when it changes -->
+            {% set ns = namespace(current_matchday=None, current_group=None) %}
+
+            {% for match in matches %}
+
+                <!-- Print matchday header whenever matchday changes -->
+                {% if match.matchday != ns.current_matchday %}
+                    {% set ns.current_matchday = match.matchday %}
+                    {% set ns.current_group = None %}
+
+                    <!-- If matchday is null (knockout stage), show PLAY-OFFS -->
+                    <div class="matchday-header">
+                        {% if match.matchday %}
+                            MATCHDAY {{ match.matchday }} &mdash; {{ match.stage }}
+                        {% else %}
+                            PLAY-OFFS &mdash; {{ match.stage }}
+                        {% endif %}
+                    </div>
+                {% endif %}
+
+                <!-- Print group label whenever group changes within a matchday -->
+                {% if match.group_name and match.group_name != ns.current_group %}
+                    {% set ns.current_group = match.group_name %}
+                    <div class="group-label">{{ match.group_name }}</div>
+                {% endif %}
+
+                <!-- Match row — status drives which badge style is shown -->
+                <div class="match-row">
+                    <span class="match-date">{{ match.match_date }}</span>
+                    <span class="match-teams">{{ match.home_team }} <span class="vs">VS</span> {{ match.away_team }}</span>
+
+                    <!-- Status badge changes color based on TIMED / IN_PLAY / FINISHED -->
+                    {% if match.status == "TIMED" %}
+                        <span class="match-status status-timed">TIMED: None - None</span>
+                    {% elif match.status == "IN_PLAY" %}
+                        <span class="match-status status-inplay">IN PLAY: {{ match.home_score }} - {{ match.away_score }}</span>
+                    {% elif match.status == "FINISHED" %}
+                        <span class="match-status status-finished">FINAL: {{ match.home_score }} - {{ match.away_score }}</span>
+                    {% endif %}
+                </div>
+
+            {% endfor %}
+        </section>
+
+    </main>
+
+    <!-- ============================================================
+         FOOTER
+         ============================================================ -->
+    <footer class="site-footer">
+        <p>Data via <a href="https://www.football-data.org" target="_blank">football-data.org</a> &middot; Refreshed every 3 hours</p>
+        <p class="footer-author">&copy; 2026 Built by Carlos Verde</p>
+    </footer>
+
+</body>
+</html>

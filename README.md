@@ -2,7 +2,7 @@
 
 A full-stack Python/Flask app tracking the 2026 FIFA World Cup group standings, match fixtures and top scorers - updates every 3 hours - deployed and hosted on Azure App Service (always on & publicly accessible) with an automated CI/CD pipeline via GitHub Actions.
 
-🔗 **[Live App →](worldcup-dashboard-bagphxeefvbtf6db.centralus-01.azurewebsites.net)**
+🔗 **[Live App →](https://worldcup-dashboard-bagphxeefvbtf6db.centralus-01.azurewebsites.net)**
 
 ---
 

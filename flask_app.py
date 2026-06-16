@@ -1,10 +1,18 @@
 from flask import Flask, render_template
 import database
+import scheduler
+import threading
 
 # --- Initialize the Flask app ---
 # __name__ tells Flask where to look for templates/ and static/ folders
 app = Flask(__name__)
 
+# --- Initialize database and start scheduler in background ---
+with app.app_context():
+    database.main_db()
+
+scheduler_thread = threading.Thread(target=scheduler.start, daemon=True)
+scheduler_thread.start()
 
 # --- Main route ---
 # The "/" route is what loads when someone visits your homepage
@@ -24,7 +32,6 @@ def index():
         standings=standings,
         scorers=scorers
     )
-
 
 # --- Run the app ---
 # debug=True means Flask will auto-reload when you save changes to the file

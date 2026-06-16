@@ -38,4 +38,4 @@ def index():
 # This only runs when you execute flask_app.py directly, not when imported
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=False)

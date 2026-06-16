@@ -1,7 +1,8 @@
 import sqlite3
+import os
 from datetime import datetime, timezone, timedelta
 
-DB_PATH = "C:/Users/cever/Projects/stats-dashboard/worldcup.db"
+DB_PATH = os.environ.get("DB_PATH", "worldcup.db")
 
 def main_db():
     # CREATE CONNECTION TO DATABASE FILE

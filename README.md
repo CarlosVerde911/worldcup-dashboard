@@ -11,6 +11,7 @@ A full-stack Python/Flask app tracking the 2026 FIFA World Cup group standings, 
 | Layer | Technology |
 |---|---|
 | Backend | Python, Flask |
+| Data Source | [football-data.org](https://www.football-data.org) API |
 | Hosting | Azure App Service |
 | CI/CD | GitHub Actions |
 | Deployment | Azure CLI |

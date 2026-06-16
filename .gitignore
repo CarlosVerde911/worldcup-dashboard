@@ -3,3 +3,4 @@ __pycache__/
 worldcup.db
 .env
 .vscode/
+app.zip

@@ -35,8 +35,8 @@ Once the app was live, GitHub Actions was then connected through the Azure Porta
 ## Run Locally
 
 ```bash
-git clone https://github.com/CarlosVerde911/world-cup-dashboard.git
-cd world-cup-dashboard
+git clone https://github.com/CarlosVerde911/worldcup-dashboard.git
+cd worldcup-dashboard
 pip install -r requirements.txt
 flask run
 ```

@@ -2,7 +2,7 @@
 
 A full-stack Python/Flask app tracking the 2026 FIFA World Cup group standings, match fixtures and top scorers - updates every 3 hours - deployed and hosted on Azure App Service (always on & publicly accessible) with an automated CI/CD pipeline via GitHub Actions.
 
-🔗 **[Live App →](worldcup-dashboard-bagphxeefvbtf6db.centralus-01.azurewebsites.net)**
+🔗 **[Live App →](https://worldcup-dashboard-bagphxeefvbtf6db.centralus-01.azurewebsites.net)**
 
 ---
 
@@ -11,6 +11,7 @@ A full-stack Python/Flask app tracking the 2026 FIFA World Cup group standings, 
 | Layer | Technology |
 |---|---|
 | Backend | Python, Flask |
+| Data Source | [football-data.org](https://www.football-data.org) API |
 | Hosting | Azure App Service |
 | CI/CD | GitHub Actions |
 | Deployment | Azure CLI |
@@ -34,8 +35,8 @@ Once the app was live, GitHub Actions was then connected through the Azure Porta
 ## Run Locally
 
 ```bash
-git clone https://github.com/CarlosVerde911/world-cup-dashboard.git
-cd world-cup-dashboard
+git clone https://github.com/CarlosVerde911/worldcup-dashboard.git
+cd worldcup-dashboard
 pip install -r requirements.txt
 flask run
 ```

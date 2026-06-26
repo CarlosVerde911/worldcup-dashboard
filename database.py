@@ -150,8 +150,10 @@ def save_standings(standings):
     db_conn.close()
 
 def save_top_scorers(scorers):
+    sorted_scorers = sorted(scorers, key=lambda s: s["goals"] or 0, reverse=True)
+    
     rows = []
-    for i, scorer in enumerate(scorers, start =1):
+    for i, scorer in enumerate(sorted_scorers[:10], start=1):
         rows.append((
             i,
             scorer["player"]["name"],
@@ -160,8 +162,9 @@ def save_top_scorers(scorers):
         ))
 
     db_conn = sqlite3.connect(DB_PATH)
+    db_conn.execute("DELETE FROM top_scorers")
     db_conn.executemany("""
-        INSERT OR REPLACE INTO top_scorers (
+        INSERT INTO top_scorers (
             rank,
             player_name,
             team_name,

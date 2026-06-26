@@ -153,7 +153,7 @@ def save_top_scorers(scorers):
     sorted_scorers = sorted(scorers, key=lambda s: s["goals"] or 0, reverse=True)
     
     rows = []
-    for i, scorer in enumerate(sorted_scorers[:10], start=1):
+    for i, scorer in enumerate(sorted_scorers[:15], start=1):
         rows.append((
             i,
             scorer["player"]["name"],
